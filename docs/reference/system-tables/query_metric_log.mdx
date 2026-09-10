@@ -432,6 +432,7 @@ by default). The data is also collected when the query finishes if the query tak
 - `ProfileEvent_ExternalJoinCompressedBytes` ([UInt64](/reference/data-types/int-uint)) — Number of compressed bytes written for JOIN in external memory.
 - `ProfileEvent_ExternalJoinUncompressedBytes` ([UInt64](/reference/data-types/int-uint)) — Amount of data (uncompressed, before compression) written for JOIN in external memory.
 - `ProfileEvent_IcebergPartitionPrunedFiles` ([UInt64](/reference/data-types/int-uint)) — Number of skipped files during Iceberg partition pruning
+- `ProfileEvent_IcebergPartitionPrunedManifestFiles` ([UInt64](/reference/data-types/int-uint)) — Number of Iceberg manifest files skipped without being read, using the partition summaries of the manifest list
 - `ProfileEvent_IcebergTrivialCountOptimizationApplied` ([UInt64](/reference/data-types/int-uint)) — Trivial count optimization applied while reading from Iceberg
 - `ProfileEvent_IcebergVersionHintUsed` ([UInt64](/reference/data-types/int-uint)) — Number of times version-hint.text has been used.
 - `ProfileEvent_IcebergMinMaxIndexPrunedFiles` ([UInt64](/reference/data-types/int-uint)) — Number of skipped files by using MinMax index in Iceberg
@@ -1535,6 +1536,7 @@ by default). The data is also collected when the query finishes if the query tak
 - `ProfileEvent_RuntimeFilterRowsChecked` ([UInt64](/reference/data-types/int-uint)) — Number of rows checked by JOIN Runtime Filters
 - `ProfileEvent_RuntimeFilterRowsPassed` ([UInt64](/reference/data-types/int-uint)) — Number of rows that passed (not filtered out by) JOIN Runtime Filters
 - `ProfileEvent_RuntimeFilterRowsSkipped` ([UInt64](/reference/data-types/int-uint)) — Number of rows in blocks that were skipped by JOIN Runtime Filters
+- `ProfileEvent_RuntimeFilterBloomFilterBuildsSkipped` ([UInt64](/reference/data-types/int-uint)) — Number of JOIN Runtime Filter Bloom filter builds skipped because the build-side key count from the hash table statistics predicted that the filter would exceed the maximal ratio of set bits
 - `ProfileEvent_RuntimeFilterGranulesConsidered` ([UInt64](/reference/data-types/int-uint)) — Number of granules examined for read time pruning by JOIN Runtime Filters
 - `ProfileEvent_RuntimeFilterGranulesDropped` ([UInt64](/reference/data-types/int-uint)) — Number of granules pruned at read time by JOIN Runtime Filters
 - `ProfileEvent_JoinBuildPostProcessingMicroseconds` ([UInt64](/reference/data-types/int-uint)) — Elapsed time of post-processing steps after building the right JOIN side.

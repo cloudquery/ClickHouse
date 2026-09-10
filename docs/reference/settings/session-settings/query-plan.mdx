@@ -46,6 +46,14 @@ Possible values:
 - 0 - Disable
 - 1 - Enable
 
+## query_plan_allow_derived_not_null_filters_execution {#query_plan_allow_derived_not_null_filters_execution}
+
+<SettingsInfoBlock type="Bool" default_value="1" />
+
+<VersionHistory rows={[{"id": "row-1","items": [{"label": "26.9"},{"label": "1"},{"label": "New setting to allow `col IS NOT NULL` filters derived by the planner to be executed."}]}]}/>
+
+Allow `col IS NOT NULL` filters derived from joins by the planner when `query_plan_derive_not_null_filters_from_joins` is enabled to be executed.
+
 ## query_plan_convert_any_join_to_semi_or_anti_join {#query_plan_convert_any_join_to_semi_or_anti_join}
 
 <SettingsInfoBlock type="Bool" default_value="1" />
@@ -69,6 +77,20 @@ Allow to convert `JOIN` to subquery with `IN` if output columns tied to only lef
 <VersionHistory rows={[{"id": "row-1","items": [{"label": "24.4"},{"label": "1"},{"label": "Allow to convert OUTER JOIN to INNER JOIN if filter after JOIN always filters default values"}]}]}/>
 
 Allow to convert `OUTER JOIN` to `INNER JOIN` if filter after `JOIN` always filters default values
+
+## query_plan_derive_not_null_filters_from_joins {#query_plan_derive_not_null_filters_from_joins}
+
+<SettingsInfoBlock type="Bool" default_value="1" />
+
+<VersionHistory rows={[{"id": "row-1","items": [{"label": "26.9"},{"label": "1"},{"label": "New setting to derive `IS NOT NULL` filters for join inputs from null-rejecting join conditions. Only applicable when `query_plan_convert_outer_join_to_inner_join` is enabled."}]}]}/>
+
+Derive `IS NOT NULL` filters for join inputs from null-rejecting join conditions.
+
+Only conditions of the form `expr1` <op> `expr2` are considered, where <op> is one of `=`, `<`, `<=`, `>`, `>=`. Each side can be a column or an expression that propagates NULLs, such as `col1` + 1, in which case a filter is derived for every column the expression propagates NULLs from.
+
+The derived filters allow converting `OUTER JOIN` to `INNER JOIN`. This setting is only applicable when `query_plan_convert_outer_join_to_inner_join` is enabled.
+
+The derived filters are not executed unless `query_plan_allow_derived_not_null_filters_execution` is enabled.
 
 ## query_plan_direct_read_from_text_index {#query_plan_direct_read_from_text_index}
 
@@ -254,6 +276,14 @@ For regular query execution if the actual number of optimizations exceeds this s
 <Note>
 This is an expert-level setting which should only be used for debugging by developers. The setting may change in future in backward-incompatible ways or be removed.
 </Note>
+
+## query_plan_max_selectivity_for_not_null_filters_execution {#query_plan_max_selectivity_for_not_null_filters_execution}
+
+<SettingsInfoBlock type="Double" default_value="0.7" />
+
+<VersionHistory rows={[{"id": "row-1","items": [{"label": "26.9"},{"label": "0.7"},{"label": "New setting to control the maximum estimated selectivity a planner-derived `col IS NOT NULL` filter may have to be executed."}]}]}/>
+
+The maximum estimated selectivity a planner-derived `col IS NOT NULL` filter may have to be promoted to an executable filter.
 
 ## query_plan_max_set_size_for_projection_match {#query_plan_max_set_size_for_projection_match}
 
